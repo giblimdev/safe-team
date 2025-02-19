@@ -14,25 +14,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Idea {
-  id              String           @id @default(cuid())
-  functionalities Functionality[]
+model Idea { 
+ id                String              @id @default(cuid())
+  content           String             @default("")
+  functionalities   Functionality[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now())
 }
 
 model Functionality {
-  id                String              @id @default(cuid())
-  devId             String
+    id                String              @id @default(cuid())
   content           String
+  ideaId            String
+  idea              Idea                @relation(fields: [ideaId], references: [id])
   functionalityItems FunctionalityItem[]
-
-  Idea Idea[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 }
 
 model FunctionalityItem {
-  id      String   @id @default(cuid())
-  item    String
-
-  Functionality Functionality[]
+  id              String   @id @default(cuid())
+  item            String
+  functionalityId String
+  functionality   Functionality @relation(fields: [functionalityId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model User {
