@@ -8,7 +8,7 @@ type Idea = {
 };
 
 type IdeaStore = {
-  selectedIdea: Idea | null;
+  selectedIdea: Idea | null; 
   setSelectedIdea: (idea: Idea | null) => void;
   hoveredIdea: Idea | null;
   setHoveredIdea: (idea: Idea | null) => void;
