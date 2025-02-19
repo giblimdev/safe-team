@@ -14,33 +14,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Idea { 
- id                String              @id @default(cuid())
-  content           String             @default("")
-  functionalities   Functionality[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @default(now())
+model Idea {
+  id                String         @id @default(cuid())
+  content           String         @default("")
+  functionalities   Functionality[] // Pas besoin de `onDelete` ici
+  order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 }
 
 model Functionality {
-    id                String              @id @default(cuid())
+  id                String         @id @default(cuid())
   content           String
   ideaId            String
-  idea              Idea                @relation(fields: [ideaId], references: [id])
-  functionalityItems FunctionalityItem[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  idea              Idea           @relation(fields: [ideaId], references: [id], onDelete: Cascade) // Suppression en cascade ici
+  functionalityItems FunctionalityItem[] // Pas besoin de `onDelete` ici
+  order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 }
 
 model FunctionalityItem {
-  id              String   @id @default(cuid())
+  id              String         @id @default(cuid())
   item            String
   functionalityId String
-  functionality   Functionality @relation(fields: [functionalityId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  functionality   Functionality  @relation(fields: [functionalityId], references: [id], onDelete: Cascade) // Suppression en cascade ici
+  order           Int            @default(0) // Champ pour gérer l'ordre d'affichage
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 }
-
 model User {
   id          String      @id @default(cuid())
   pseudo      String?     @db.VarChar(255)
@@ -62,6 +64,7 @@ enum Role {
 model Company {
   id              String           @id @default(cuid())
   name            String
+  order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
   employees       Employee[]
   companyCertifs  CompanyCertif[]
 }
@@ -69,6 +72,7 @@ model Company {
 model Employee {
   id              String           @id @default(cuid())
   name            String
+order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
   email           String           @unique
   companyId       String
   company         Company          @relation(fields: [companyId], references: [id])
@@ -81,6 +85,7 @@ model Employee {
 model Training {
   id        String    @id @default(cuid())
   title     String
+order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
   modules   Module[]
 
   User User[]
@@ -89,6 +94,7 @@ model Training {
 model Module {
   id          String    @id @default(cuid())
   title       String
+order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
   chapters    Chapter[]
   trainingId  String
   training    Training  @relation(fields: [trainingId], references: [id])
@@ -99,7 +105,7 @@ model Chapter {
   title     String
   moduleId  String
   module    Module    @relation(fields: [moduleId], references: [id])
-
+order             Int            @default(0) // Champ pour gérer l'ordre d'affichage
   Progress Progress[]
 }
 

@@ -1,3 +1,41 @@
+/*
+model Idea { 
+ id                String              @id @default(cuid())
+  content           String             @default("")
+  functionalities   Functionality[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now())
+}
+
+model Functionality {
+    id                String              @id @default(cuid())
+  content           String
+  ideaId            String
+  idea              Idea                @relation(fields: [ideaId], references: [id])
+  functionalityItems FunctionalityItem[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model FunctionalityItem {
+  id              String   @id @default(cuid())
+  item            String
+  functionalityId String
+  functionality   Functionality @relation(fields: [functionalityId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+*/
+/*réécris ce composant pour qu'il me permet entre autre de 
+d'afficher les ides.
+d'afficher les fonctionnalitées de l'idée sélectionée 
+d'afficher les item e la fonctionnalité sélectionnée
+je veux un composant fonctionnel pour gérer (CRUD) une id"ee et ses fonctionnalité et ses item*/
+
+
+
+
+//@/app/components/Comptest.tsx
 "use client";
 
 import { useState } from "react";
