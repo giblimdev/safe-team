@@ -79,7 +79,7 @@ export default function IdeaManager() {
         </Button>
       </div>
       <ul>
-        {ideas?.map((idea) => (
+        {ideas?.map((idea: { id: Key | null | undefined; content: string | number | readonly string[] | undefined; }) => (
           <li key={idea.id} className="flex justify-between items-center">
             <Input
               value={idea.content}
@@ -105,7 +105,7 @@ export default function IdeaManager() {
             <FaPlus /> Ajouter
           </Button>
           <ul>
-            {functionalities?.map((func) => (
+            {functionalities?.map((func: { id: Key | null | undefined; content: string | number | readonly string[] | undefined; }) => (
               <li key={func.id} className="flex justify-between items-center">
                 <Input
                   value={func.content}
@@ -133,7 +133,7 @@ export default function IdeaManager() {
             <FaPlus /> Ajouter
           </Button>
           <ul>
-            {items?.map((item) => (
+            {items?.map((item: { id: Key | null | undefined; item: string | number | readonly string[] | undefined; }) => (
               <li key={item.id} className="flex justify-between items-center">
                 <Input
                   value={item.item}
